@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capcol: {fileID: 1149119165}
+  offset: 0.1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +418,7 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   walkSpeed: 1.4
   runMultiplier: 2.7
-  jumpVelocity: 3.5
+  jumpVelocity: 4
   anim: {fileID: 0}
 --- !u!54 &1149119167
 Rigidbody:
@@ -622,7 +623,7 @@ GameObject:
   - component: {fileID: 1651841975}
   - component: {fileID: 1651841974}
   - component: {fileID: 1651841973}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

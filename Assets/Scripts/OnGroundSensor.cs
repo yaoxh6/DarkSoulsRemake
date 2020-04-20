@@ -5,6 +5,7 @@ using UnityEngine;
 public class OnGroundSensor : MonoBehaviour
 {
     public CapsuleCollider capcol;
+    public float offset = 0.1f;
 
     private Vector3 point1;
     private Vector3 point2;
@@ -12,7 +13,7 @@ public class OnGroundSensor : MonoBehaviour
 
     void Awake()
     {
-        radius = capcol.radius;
+        radius = capcol.radius - 0.05f;
 
     }
     // Start is called before the first frame update
@@ -23,11 +24,15 @@ public class OnGroundSensor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        point1 = transform.position + transform.up * radius;
-        point2 = transform.position + transform.up * capcol.height - transform.up * radius;
+        point1 = transform.position + transform.up * (radius - offset);
+        point2 = transform.position + transform.up * (capcol.height - offset) - transform.up * radius;
         if (Physics.OverlapCapsule(point1, point2, radius, LayerMask.GetMask("Ground")).Length != 0)
         {
-            Debug.Log("OnGround");
+            SendMessageUpwards("IsGround");
+        }
+        else
+        {
+            SendMessageUpwards("IsNotGround");
         }
     }
     // Update is called once per frame

@@ -58,6 +58,9 @@ public class ActorController : MonoBehaviour
         thrustVec = Vector3.zero;
     }
 
+    //
+    //
+    //
     public void OnJumpEnter()
     {
         playerInput.inputEnabled = false;
@@ -65,9 +68,33 @@ public class ActorController : MonoBehaviour
         thrustVec = new Vector3(0, jumpVelocity, 0);
     }
 
-    public void OnJumpExit()
+    //public void OnJumpExit()
+    //{
+    //    playerInput.inputEnabled = true;
+    //    lockPlanar = false;
+    //}
+
+    public void IsGround()
+    {
+        // print("IsOnGround");
+        anim.SetBool("isGround", true);
+    }
+    
+    public void IsNotGround()
+    {
+        // print("IsNotGround");
+        anim.SetBool("isGround", false);
+    }
+
+    public void OnGround()
     {
         playerInput.inputEnabled = true;
         lockPlanar = false;
+    }
+
+    public void OnFallEnter()
+    {
+        playerInput.inputEnabled = false;
+        lockPlanar = true;
     }
 }
