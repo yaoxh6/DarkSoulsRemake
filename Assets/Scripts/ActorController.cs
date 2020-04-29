@@ -26,7 +26,7 @@ public class ActorController : MonoBehaviour
     private bool lockPlanar = false;
     private CapsuleCollider col;
     private float lerpTarget;
-
+    private Vector3 deltaPos;
 
     // Start is called before the first frame update
     void Awake()
@@ -75,9 +75,11 @@ public class ActorController : MonoBehaviour
 
     void FixedUpdate()
     {
+        rigidbody.position += deltaPos;
         // rigidbody.position += planarVec * Time.fixedDeltaTime;
         rigidbody.velocity = new Vector3(planarVec.x, rigidbody.velocity.y, planarVec.z) + thrustVec;
         thrustVec = Vector3.zero;
+        deltaPos = Vector3.zero;
     }
 
     private bool CheckState(string stateName, string layerName = "Base Layer")
@@ -179,5 +181,13 @@ public class ActorController : MonoBehaviour
         float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("attack"));
         currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.1f);
         anim.SetLayerWeight(anim.GetLayerIndex("attack"), currentWeight);
+    }
+
+    public void OnUpdateRM(Vector3 _deltaPos)
+    {
+        if (CheckState("attack1hC", "attack"))
+        {
+            deltaPos += _deltaPos;
+        }
     }
 }
