@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public PlayerInput playerinput;
+    //public PlayerInput playerinput;
+    private JoystickInput playerinput;
     public float horizontalSpeed = 100.0f;
     public float verticalSpeed = 100.0f;
     public float cameraDampValue = 0.05f;
@@ -17,19 +18,17 @@ public class CameraController : MonoBehaviour
     private GameObject model;
     private GameObject camera;
 
-    void Awake()
+    void Start()
     {
         cameraHanle = transform.parent.gameObject;
         playerHandle = cameraHanle.transform.parent.gameObject;
         tempEulerX = 20.0f;
-        model = playerHandle.GetComponent<ActorController>().model;
+        ActorController ac = playerHandle.GetComponent<ActorController>();
+        model = ac.model;
+        playerinput = ac.playerInput;
         camera = Camera.main.gameObject;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
     // Update is called once per frame
     void FixedUpdate()
     {

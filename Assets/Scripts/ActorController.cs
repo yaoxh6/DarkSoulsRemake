@@ -6,7 +6,8 @@ public class ActorController : MonoBehaviour
 {
 
     public GameObject model;
-    public PlayerInput playerInput;
+    //public PlayerInput playerInput;
+    public JoystickInput playerInput;
     public float walkSpeed = 2.0f;
     public float runMultiplier = 2.7f;
     public float jumpVelocity = 3.5f;
@@ -31,7 +32,8 @@ public class ActorController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
+        //playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<JoystickInput>();
         anim = model.GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();
