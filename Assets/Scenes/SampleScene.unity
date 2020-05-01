@@ -417,11 +417,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149119163}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bc4359783f929a4d8e131631cffb064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dup: 0
+  Dright: 0
+  Dmag: 0
+  Dvec: {x: 0, y: 0, z: 0}
+  Jup: 0
+  Jright: 0
+  bIsRun: 0
+  jump: 0
+  attack: 0
+  inputEnabled: 0
   KeyUp: w
   KeyDown: s
   KeyLeft: a
@@ -434,16 +444,6 @@ MonoBehaviour:
   keyJLeft: left
   keyJUp: up
   keyJDown: down
-  Dup: 0
-  Dright: 0
-  Dmag: 0
-  Dvec: {x: 0, y: 0, z: 0}
-  Jup: 0
-  Jright: 0
-  bIsRun: 0
-  jump: 0
-  attack: 0
-  inputEnabled: 0
 --- !u!136 &1149119165
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -524,14 +524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c860f576da0b54698c5c7f93b27d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axisX: axisX
-  axisY: axisY
-  axisJright: axis4
-  axisJup: axis5
-  btnA: btn0
-  btnB: btn1
-  btnC: btn2
-  btnD: btn3
   Dup: 0
   Dright: 0
   Dmag: 0
@@ -542,6 +534,14 @@ MonoBehaviour:
   jump: 0
   attack: 0
   inputEnabled: 0
+  axisX: axisX
+  axisY: axisY
+  axisJright: axis4
+  axisJup: axis5
+  btnA: btn0
+  btnB: btn1
+  btnC: btn2
+  btnD: btn3
 --- !u!1 &1261619103
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,6 +703,10 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
 --- !u!1 &1651841972
@@ -806,7 +810,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651841972}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0355a8deb2011e46846a91f675a06f3, type: 3}
   m_Name: 

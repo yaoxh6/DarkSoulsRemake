@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     //public PlayerInput playerinput;
-    private JoystickInput playerinput;
+    private IUserInput playerinput;
     public float horizontalSpeed = 100.0f;
     public float verticalSpeed = 100.0f;
     public float cameraDampValue = 0.05f;
@@ -43,6 +43,7 @@ public class CameraController : MonoBehaviour
         model.transform.eulerAngles = tempModelEuler;
 
         camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
-        camera.transform.eulerAngles = transform.eulerAngles;
+        //camera.transform.eulerAngles = transform.eulerAngles;
+        camera.transform.LookAt(cameraHanle.transform);
     }
 }

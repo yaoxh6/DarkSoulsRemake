@@ -7,7 +7,7 @@ public class ActorController : MonoBehaviour
 
     public GameObject model;
     //public PlayerInput playerInput;
-    public JoystickInput playerInput;
+    public IUserInput playerInput;
     public float walkSpeed = 2.0f;
     public float runMultiplier = 2.7f;
     public float jumpVelocity = 3.5f;
@@ -32,8 +32,17 @@ public class ActorController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        IUserInput[] inputs = GetComponents<IUserInput>();
+        foreach (var input in inputs)
+        {
+            if(input.enabled == true)
+            {
+                playerInput = input;
+                break;
+            }
+        }
         //playerInput = GetComponent<PlayerInput>();
-        playerInput = GetComponent<JoystickInput>();
+        playerInput = GetComponent<IUserInput>();
         anim = model.GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();
@@ -189,7 +198,8 @@ public class ActorController : MonoBehaviour
     {
         if (CheckState("attack1hC", "attack"))
         {
-            deltaPos += _deltaPos;
+            //deltaPos += _deltaPos;
+            deltaPos = (0.8f * deltaPos + 0.2f * _deltaPos);
         }
     }
 }
