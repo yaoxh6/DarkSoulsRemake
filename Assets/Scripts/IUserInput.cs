@@ -14,6 +14,7 @@ public abstract class IUserInput : MonoBehaviour
 
 
     public bool bIsRun;
+    public bool defense;
 
     public bool jump;
     protected bool lastjump;

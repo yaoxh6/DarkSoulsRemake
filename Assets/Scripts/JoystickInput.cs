@@ -13,31 +13,15 @@ public class JoystickInput : IUserInput
     public string btnB = "btn1";
     public string btnC = "btn2";
     public string btnD = "btn3";
+    public string btnLB = "btn4";
+    public string btnLT = "btn6";
 
-    //[Header("----- Output signals -----")]
-    //public float Dup;
-    //public float Dright;
-    //public float Dmag;
-    //public Vector3 Dvec;
-    //public float Jup;
-    //public float Jright;
-
-
-    //public bool bIsRun;
-
-    //public bool jump;
-    //private bool lastjump;
-
-    //public bool attack;
-    //private bool lastattack;
-
-    //[Header("----- others -----")]
-    //public bool inputEnabled;
-
-    //private float TargetDup;
-    //private float TargetDright;
-    //private float VelocityDup;
-    //private float VelocityRight;
+    public MyButton buttonA = new MyButton();
+    public MyButton buttonB = new MyButton();
+    public MyButton buttonC = new MyButton();
+    public MyButton buttonD = new MyButton();
+    public MyButton buttonLB = new MyButton();
+    public MyButton buttonLT = new MyButton();
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +32,14 @@ public class JoystickInput : IUserInput
     // Update is called once per frame
     void Update()
     {
+
+        buttonA.Tick(Input.GetButton(btnA));
+        buttonB.Tick(Input.GetButton(btnB));
+        buttonC.Tick(Input.GetButton(btnC));
+        buttonD.Tick(Input.GetButton(btnD));
+        buttonLB.Tick(Input.GetButton(btnLB));
+        buttonLT.Tick(Input.GetButton(btnLT));
+
         Jup = -Input.GetAxis(axisJup);
         Jright = Input.GetAxis(axisJright);
 
@@ -71,36 +63,10 @@ public class JoystickInput : IUserInput
         Dmag = Mathf.Sqrt(Mathf.Sqrt(Dup2 * Dup2 + Dright2 * Dright2));
         Dvec = Dup * transform.forward + Dright * transform.right;
 
-        bIsRun = Input.GetButton(btnA);
-
-        bool newJump = Input.GetButton(btnB);
-        if (newJump != lastjump && newJump == true)
-        {
-            jump = true;
-        }
-        else
-        {
-            jump = false;
-        }
-        lastjump = newJump;
-
-        bool newAttack = Input.GetButton(btnC);
-        if (newAttack != lastattack && newAttack == true)
-        {
-            attack = true;
-        }
-        else
-        {
-            attack = false;
-        }
-        lastattack = newAttack;
+        bIsRun = buttonA.IsPressing;
+        defense = buttonLB.IsPressing;
+        jump = buttonB.OnPressed;
+        attack = buttonC.OnPressed;
     }
 
-    //Vector2 SquareToCircle(Vector2 input)
-    //{
-    //    Vector2 output = Vector2.zero;
-    //    output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
-    //    output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
-    //    return output;
-    //}
 }

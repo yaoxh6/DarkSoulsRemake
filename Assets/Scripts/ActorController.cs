@@ -56,7 +56,9 @@ public class ActorController : MonoBehaviour
     void Update()
     {
         anim.SetFloat("forward", playerInput.Dmag * Mathf.Lerp(anim.GetFloat("forward"), (playerInput.bIsRun ? 2.0f : 1.0f), 0.5f));
-        if(rigidbody.velocity.magnitude > 5.0f)
+        anim.SetBool("defense", playerInput.defense);
+
+        if (rigidbody.velocity.magnitude > 5.0f)
         {
             anim.SetTrigger("roll");
         }
