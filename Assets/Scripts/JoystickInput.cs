@@ -63,9 +63,10 @@ public class JoystickInput : IUserInput
         Dmag = Mathf.Sqrt(Mathf.Sqrt(Dup2 * Dup2 + Dright2 * Dright2));
         Dvec = Dup * transform.forward + Dright * transform.right;
 
-        bIsRun = buttonA.IsPressing;
+        bIsRun = buttonA.IsPressing && !buttonA.IsDelaying || buttonA.IsExtending;
         defense = buttonLB.IsPressing;
-        jump = buttonB.OnPressed;
+        jump = buttonA.OnPressed && buttonA.IsExtending;
+        roll = buttonA.OnReleased && buttonA.IsDelaying;
         attack = buttonC.OnPressed;
     }
 
