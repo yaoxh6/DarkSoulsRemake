@@ -15,6 +15,7 @@ public class JoystickInput : IUserInput
     public string btnD = "btn3";
     public string btnLB = "btn4";
     public string btnLT = "btn6";
+    //public string btnJstck = "btn11";
 
     public MyButton buttonA = new MyButton();
     public MyButton buttonB = new MyButton();

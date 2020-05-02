@@ -7,51 +7,34 @@ public class KeyboardInput : IUserInput
     // Start is called before the first frame update
 
     [Header("----- key settings -----")]
-    public string KeyUp;
-    public string KeyDown;
-    public string KeyLeft;
-    public string KeyRight;
+    public string KeyUp = "w";
+    public string KeyDown = "s";
+    public string KeyLeft = "a";
+    public string KeyRight = "d";
 
-    public string keyA;
-    public string keyB;
-    public string keyC;
-    public string keyD;
+    public string keyA = "left shift";
+    public string keyB = "q";
+    public string keyC = "mouse 0";
+    public string keyD = "mouse 1";
 
     public string keyJRight;
     public string keyJLeft;
     public string keyJUp;
     public string keyJDown;
 
-    //[Header("----- Output signals -----")]
-    //public float Dup;
-    //public float Dright;
-    //public float Dmag;
-    //public Vector3 Dvec;
-    //public float Jup;
-    //public float Jright;
+    public MyButton buttonA = new MyButton();//run
+    public MyButton buttonB = new MyButton();//lockon
+    public MyButton buttonC = new MyButton();//attack
+    public MyButton buttonD = new MyButton();//defense
+    public MyButton buttonLB = new MyButton();
+    public MyButton buttonLT = new MyButton();
 
-
-    //public bool bIsRun;
-
-    //public bool jump;
-    //private bool lastjump;
-
-    //public bool attack;
-    //private bool lastattack;
-
-    //[Header("----- others -----")]
-    //public bool inputEnabled;
-
-    //private float TargetDup;
-    //private float TargetDright;
-    //private float VelocityDup;
-    //private float VelocityRight;
     [Header("----- Mouse Setting -----")]
     public bool mouseEnable = true;
     public float mouseSensitivityX = 1.0f;
     public float mouseSensitivityY = 1.0f;
 
-    void Start()
+    void Awake()
     {
         KeyUp = "w";
         KeyDown = "s";
@@ -66,7 +49,13 @@ public class KeyboardInput : IUserInput
     void Update()
     {
 
-        if(mouseEnable == true)
+        buttonA.Tick(Input.GetKey(keyA));
+        buttonB.Tick(Input.GetKey(keyB));
+        buttonC.Tick(Input.GetKey(keyC));
+        buttonD.Tick(Input.GetKey(keyD));
+
+
+        if (mouseEnable == true)
         {
             Jup = Input.GetAxis("Mouse Y") * mouseSensitivityY * 3.0f;
             Jright = Input.GetAxis("Mouse X") * mouseSensitivityX * 2.5f;
@@ -101,37 +90,12 @@ public class KeyboardInput : IUserInput
         Dmag = Mathf.Sqrt(Mathf.Sqrt(Dup2 * Dup2 + Dright2 * Dright2));
         Dvec = Dup * transform.forward + Dright * transform.right;
 
-        bIsRun = Input.GetKey(keyA);
-        defense = Input.GetKey(keyD);
-
-        bool newJump = Input.GetKey(keyB);
-        if(newJump != lastjump && newJump == true)
-        {
-            jump = true;
-        }
-        else
-        {
-            jump = false;
-        }
-        lastjump = newJump;
-
-        bool newAttack = Input.GetKey(keyC);
-        if (newAttack != lastattack && newAttack == true)
-        {
-            attack = true;
-        }
-        else
-        {
-            attack = false;
-        }
-        lastattack = newAttack;
+        bIsRun = buttonA.IsPressing && !buttonA.IsDelaying || buttonA.IsExtending;
+        defense = buttonD.IsPressing;
+        jump = buttonA.OnPressed && buttonA.IsExtending;
+        roll = buttonA.OnReleased && buttonA.IsDelaying;
+        attack = buttonC.OnPressed;
+        lockon = buttonB.OnPressed;
     }
 
-    //Vector2 SquareToCircle(Vector2 input)
-    //{
-    //    Vector2 output = Vector2.zero;
-    //    output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
-    //    output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
-    //    return output;
-    //}
 }

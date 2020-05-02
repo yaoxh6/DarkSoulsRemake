@@ -17,6 +17,8 @@ public class CameraController : MonoBehaviour
     private float tempEulerX;
     private GameObject model;
     private GameObject camera;
+    [SerializeField]
+    private GameObject lockTarget;
 
     void Start()
     {
@@ -34,18 +36,58 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(lockTarget == null)
+        {
+            Vector3 tempModelEuler = model.transform.eulerAngles;
 
-        Vector3 tempModelEuler = model.transform.eulerAngles;
+            playerHandle.transform.Rotate(Vector3.up, playerinput.Jright * horizontalSpeed * Time.fixedDeltaTime);
+            //cameraHanle.transform.Rotate(Vector3.right, playerinput.Jup * -verticalSpeed * Time.deltaTime);
+            tempEulerX -= playerinput.Jup * verticalSpeed * Time.fixedDeltaTime;
+            cameraHanle.transform.localEulerAngles = new Vector3(Mathf.Clamp(tempEulerX, -40, 30), 0, 0);
 
-        playerHandle.transform.Rotate(Vector3.up, playerinput.Jright * horizontalSpeed * Time.fixedDeltaTime);
-        //cameraHanle.transform.Rotate(Vector3.right, playerinput.Jup * -verticalSpeed * Time.deltaTime);
-        tempEulerX -= playerinput.Jup * verticalSpeed * Time.fixedDeltaTime;
-        cameraHanle.transform.localEulerAngles = new Vector3(Mathf.Clamp(tempEulerX, -40, 30), 0, 0);
-
-        model.transform.eulerAngles = tempModelEuler;
-
+            model.transform.eulerAngles = tempModelEuler;
+        }
+        else
+        {
+            Vector3 tempForward = lockTarget.transform.position - model.transform.position;
+            tempForward.y = 0;
+            playerHandle.transform.forward = tempForward;
+        }
         camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
         //camera.transform.eulerAngles = transform.eulerAngles;
         camera.transform.LookAt(cameraHanle.transform);
+    }
+
+    public void LockUnlock()
+    {
+        //if(lockTarget == null)
+        //{
+            Vector3 modelOrigin1 = model.transform.position;
+            Vector3 mpdelOrigin2 = modelOrigin1 + new Vector3(0, 1, 0);
+            Vector3 boxCenter = mpdelOrigin2 + model.transform.forward * 5.0f;
+            Collider[] cols = Physics.OverlapBox(boxCenter, new Vector3(0.5f, 0.5f, 5f),model.transform.rotation,LayerMask.GetMask("Enemy"));
+
+        if(cols.Length == 0)
+        {
+            lockTarget = null;
+        }
+        else
+        {
+            foreach (var col in cols)
+            {
+                if(lockTarget == col.gameObject)
+                {
+                    lockTarget = null;
+                    break;
+                }
+                lockTarget = col.gameObject;
+                break;
+            }
+        }
+        //}
+        //else
+        //{
+        //    lockTarget = null;
+        //}
     }
 }

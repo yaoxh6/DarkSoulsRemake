@@ -22,6 +22,7 @@ public abstract class IUserInput : MonoBehaviour
     public bool attack;
     protected bool lastattack;
     public bool roll;
+    public bool lockon;
 
     [Header("----- others -----")]
     public bool inputEnabled;

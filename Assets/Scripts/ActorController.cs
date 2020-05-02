@@ -6,7 +6,7 @@ public class ActorController : MonoBehaviour
 {
 
     public GameObject model;
-    //public PlayerInput playerInput;
+    public CameraController camcon;
     public IUserInput playerInput;
     public float walkSpeed = 2.0f;
     public float runMultiplier = 2.7f;
@@ -55,13 +55,14 @@ public class ActorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerInput.lockon)
+        {
+            camcon.LockUnlock();
+        }
+
         anim.SetFloat("forward", playerInput.Dmag * Mathf.Lerp(anim.GetFloat("forward"), (playerInput.bIsRun ? 2.0f : 1.0f), 0.5f));
         anim.SetBool("defense", playerInput.defense);
 
-        //if (rigidbody.velocity.magnitude > 5.0f)
-        //{
-        //    anim.SetTrigger("roll");
-        //}
         if (playerInput.roll || rigidbody.velocity.magnitude > 7.0f)
         {
             anim.SetTrigger("roll");

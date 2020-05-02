@@ -11,7 +11,7 @@ public class MyButton
     public bool IsDelaying = false;
 
     public float extendingDuration = 0.15f;
-    public float delayingDuration = 1.0f;
+    public float delayingDuration = 0.15f;
 
     private bool curState = false;
     private bool lastState = false;
