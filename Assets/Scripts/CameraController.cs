@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class CameraController : MonoBehaviour
     public float cameraDampValue = 0.05f;
     public Vector3 cameraDampVelocity;
 
+    public Image lockDot;
+    public bool lockState;
 
     private GameObject playerHandle;
     private GameObject cameraHanle;
@@ -18,7 +21,7 @@ public class CameraController : MonoBehaviour
     private GameObject model;
     private GameObject camera;
     [SerializeField]
-    private GameObject lockTarget;
+    private LockTarget lockTarget;
 
     void Start()
     {
@@ -30,6 +33,8 @@ public class CameraController : MonoBehaviour
         playerinput = ac.playerInput;
         camera = Camera.main.gameObject;
 
+        lockDot.enabled = false;
+        lockState = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -49,13 +54,28 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            Vector3 tempForward = lockTarget.transform.position - model.transform.position;
+            Vector3 tempForward = lockTarget.obj.transform.position - model.transform.position;
             tempForward.y = 0;
             playerHandle.transform.forward = tempForward;
+            cameraHanle.transform.LookAt(lockTarget.obj.transform);
         }
         camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
         //camera.transform.eulerAngles = transform.eulerAngles;
         camera.transform.LookAt(cameraHanle.transform);
+    }
+
+    private void Update()
+    {
+        if(lockTarget != null)
+        {
+            lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0, lockTarget.halfHeight, 0));
+            if (Vector3.Distance(model.transform.position,lockTarget.obj.transform.position) > 10.0f)
+            {
+                lockTarget = null;
+                lockDot.enabled = false;
+                lockState = false;
+            }
+        }
     }
 
     public void LockUnlock()
@@ -70,17 +90,23 @@ public class CameraController : MonoBehaviour
         if(cols.Length == 0)
         {
             lockTarget = null;
+            lockDot.enabled = false;
+            lockState = false;
         }
         else
         {
             foreach (var col in cols)
             {
-                if(lockTarget == col.gameObject)
+                if(lockTarget != null && lockTarget.obj == col.gameObject)
                 {
                     lockTarget = null;
+                    lockDot.enabled = false;
+                    lockState = false;
                     break;
                 }
-                lockTarget = col.gameObject;
+                lockTarget = new LockTarget(col.gameObject,col.bounds.extents.y);
+                lockDot.enabled = true;
+                lockState = true;
                 break;
             }
         }
@@ -89,5 +115,17 @@ public class CameraController : MonoBehaviour
         //{
         //    lockTarget = null;
         //}
+    }
+
+    private class LockTarget
+    {
+        public GameObject obj;
+        public float halfHeight;
+
+        public LockTarget(GameObject _obj,float _halfHeight)
+        {
+            obj = _obj;
+            halfHeight = _halfHeight;
+        }
     }
 }

@@ -25,6 +25,7 @@ public class ActorController : MonoBehaviour
     private Vector3 thrustVec;
     private bool canAttack;
     private bool lockPlanar = false;
+    private bool trackDirection = false;
     private CapsuleCollider col;
     private float lerpTarget;
     private Vector3 deltaPos;
@@ -59,8 +60,18 @@ public class ActorController : MonoBehaviour
         {
             camcon.LockUnlock();
         }
+        if(camcon.lockState == false)
+        {
+            anim.SetFloat("forward", playerInput.Dmag * Mathf.Lerp(anim.GetFloat("forward"), (playerInput.bIsRun ? 2.0f : 1.0f), 0.5f));
+            anim.SetFloat("right", 0);
+        }
+        else
+        {
+            Vector3 localDvec = transform.InverseTransformVector(playerInput.Dvec);
+            anim.SetFloat("forward", localDvec.z * (playerInput.bIsRun ? 2.0f : 1.0f));
+            anim.SetFloat("right", localDvec.x * (playerInput.bIsRun ? 2.0f : 1.0f));
+        }
 
-        anim.SetFloat("forward", playerInput.Dmag * Mathf.Lerp(anim.GetFloat("forward"), (playerInput.bIsRun ? 2.0f : 1.0f), 0.5f));
         anim.SetBool("defense", playerInput.defense);
 
         if (playerInput.roll || rigidbody.velocity.magnitude > 7.0f)
@@ -80,15 +91,35 @@ public class ActorController : MonoBehaviour
             anim.SetTrigger("attack");
         }
 
-        if (playerInput.Dmag > 0.1f)
+        if(camcon.lockState == false)
         {
-            model.transform.forward = Vector3.Slerp(model.transform.forward, playerInput.Dvec, 0.3f);
+            if (playerInput.Dmag > 0.1f)
+            {
+                model.transform.forward = Vector3.Slerp(model.transform.forward, playerInput.Dvec, 0.3f);
+            }
+
+            if(lockPlanar == false)
+            {
+                planarVec = model.transform.forward * playerInput.Dmag * walkSpeed * (playerInput.bIsRun ? runMultiplier : 1.0f);
+            }
+        }
+        else
+        {
+            if(trackDirection == false)
+            {
+                model.transform.forward = transform.forward;
+            }
+            else
+            {
+                model.transform.forward = planarVec.normalized;
+            }
+
+            if(lockPlanar == false)
+            {
+                planarVec = playerInput.Dvec * walkSpeed * (playerInput.bIsRun ? runMultiplier : 1.0f);
+            }
         }
 
-        if(lockPlanar == false)
-        {
-            planarVec = model.transform.forward * playerInput.Dmag * walkSpeed * (playerInput.bIsRun ? runMultiplier : 1.0f);
-        }
 
     }
 
@@ -115,6 +146,7 @@ public class ActorController : MonoBehaviour
         playerInput.inputEnabled = false;
         lockPlanar = true;
         thrustVec = new Vector3(0, jumpVelocity, 0);
+        trackDirection = true;
     }
 
     //public void OnJumpExit()
@@ -141,6 +173,7 @@ public class ActorController : MonoBehaviour
         lockPlanar = false;
         canAttack = true;
         col.material = frictionOne;
+        trackDirection = false;
     }
 
     public void OnGroundExit()
@@ -159,6 +192,7 @@ public class ActorController : MonoBehaviour
         playerInput.inputEnabled = false;
         lockPlanar = true;
         thrustVec = new Vector3(0, rollVelocity, 0);
+        trackDirection = true;
     }
 
     public void OnJabEnter()
