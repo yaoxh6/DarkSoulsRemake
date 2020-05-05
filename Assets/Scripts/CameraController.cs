@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
             Vector3 tempForward = lockTarget.obj.transform.position - model.transform.position;
             tempForward.y = 0;
             playerHandle.transform.forward = tempForward;
-            cameraHanle.transform.LookAt(lockTarget.obj.transform);
+            cameraHanle.transform.LookAt(lockTarget.obj.transform.position - new Vector3(0, lockTarget.halfHeight, 0));
         }
         camera.transform.position = Vector3.SmoothDamp(camera.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
         //camera.transform.eulerAngles = transform.eulerAngles;
@@ -68,7 +68,8 @@ public class CameraController : MonoBehaviour
     {
         if(lockTarget != null)
         {
-            lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0, lockTarget.halfHeight, 0));
+            //lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0, lockTarget.halfHeight, 0));
+            lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position);
             if (Vector3.Distance(model.transform.position,lockTarget.obj.transform.position) > 10.0f)
             {
                 lockTarget = null;
