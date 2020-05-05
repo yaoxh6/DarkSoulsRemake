@@ -27,7 +27,7 @@ public class ActorController : MonoBehaviour
     private bool lockPlanar = false;
     private bool trackDirection = false;
     private CapsuleCollider col;
-    private float lerpTarget;
+    //private float lerpTarget;
     private Vector3 deltaPos;
 
     // Start is called before the first frame update
@@ -86,7 +86,7 @@ public class ActorController : MonoBehaviour
             canAttack = false;
         }
 
-        if (playerInput.attack && CheckState("ground") && canAttack)
+        if (playerInput.attack && (CheckState("ground") || (CheckStateTag("attack"))) && canAttack) 
         {
             anim.SetTrigger("attack");
         }
@@ -137,7 +137,10 @@ public class ActorController : MonoBehaviour
         return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsName(stateName);
     }
 
-
+    private bool CheckStateTag(string tagName, string layerName = "Base Layer")
+    {
+        return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsTag(tagName);
+    }
     //
     //
     //
@@ -210,35 +213,35 @@ public class ActorController : MonoBehaviour
     {
         playerInput.inputEnabled = false;
         //lockPlanar = true;
-        lerpTarget = 1.0f;
+        //lerpTarget = 1.0f;
     }
 
     public void OnAttack1hAUpdate()
     {
         thrustVec = model.transform.forward * anim.GetFloat("attack1hAVelocity") * jabMultiplier;
-        float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("attack"));
-        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.1f);
-        anim.SetLayerWeight(anim.GetLayerIndex("attack"), currentWeight);
+        //float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("attack"));
+        //currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.1f);
+        //anim.SetLayerWeight(anim.GetLayerIndex("attack"), currentWeight);
     }
 
-    public void OnAttackIdleEnter()
-    {
-        playerInput.inputEnabled = true;
-        //lockPlanar = false;
-        //anim.SetLayerWeight(anim.GetLayerIndex("attack"), 0.0f);
-        lerpTarget = 0.0f;
-    }
+    //public void OnAttackIdleEnter()
+    //{
+    //    playerInput.inputEnabled = true;
+    //    lockPlanar = false;
+    //    anim.SetLayerWeight(anim.GetLayerIndex("attack"), 0.0f);
+    //    lerpTarget = 0.0f;
+    //}
 
-    public void OnAttackIdleUpdate()
-    {
-        float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("attack"));
-        currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.1f);
-        anim.SetLayerWeight(anim.GetLayerIndex("attack"), currentWeight);
-    }
+    //public void OnAttackIdleUpdate()
+    //{
+    //    float currentWeight = anim.GetLayerWeight(anim.GetLayerIndex("attack"));
+    //    currentWeight = Mathf.Lerp(currentWeight, lerpTarget, 0.1f);
+    //    anim.SetLayerWeight(anim.GetLayerIndex("attack"), currentWeight);
+    //}
 
     public void OnUpdateRM(Vector3 _deltaPos)
     {
-        if (CheckState("attack1hC", "attack"))
+        if (CheckState("attack1hC"))
         {
             //deltaPos += _deltaPos;
             deltaPos = (0.8f * deltaPos + 0.2f * _deltaPos);
