@@ -30,6 +30,8 @@ public class ActorController : MonoBehaviour
     //private float lerpTarget;
     private Vector3 deltaPos;
 
+    public bool leftIsShield = true;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -86,12 +88,50 @@ public class ActorController : MonoBehaviour
             canAttack = false;
         }
 
-        if (playerInput.attack && (CheckState("ground") || (CheckStateTag("attack"))) && canAttack) 
+        if ((playerInput.rb || playerInput.lb) && (CheckState("ground") || (CheckStateTag("attack"))) && canAttack) 
         {
-            anim.SetTrigger("attack");
+            if (playerInput.rb)
+            {
+                anim.SetBool("R0L1", false);
+                anim.SetTrigger("attack");
+            }
+            else if (playerInput.lb && !leftIsShield)
+            {
+                anim.SetBool("R0L1", true);
+                anim.SetTrigger("attack");
+            }
         }
 
-        if(camcon.lockState == false)
+        if (leftIsShield)
+        {
+            anim.SetLayerWeight(anim.GetLayerIndex("defense"), 1);
+            if (CheckState("ground"))
+            {
+                anim.SetBool("defense", playerInput.defense);
+            }
+            else
+            {
+                anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0);
+            }
+        }
+        else
+        {
+            anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0);
+        }
+        //if (CheckState("ground") && leftIsShield)
+        //{
+        //    anim.SetBool("defense", playerInput.defense);
+        //    if (playerInput.defense)
+        //    {
+        //        anim.SetLayerWeight(anim.GetLayerIndex("defense"), 1);
+        //    }
+        //    else
+        //    {
+        //        anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0);
+        //    }
+        //}
+
+        if (camcon.lockState == false)
         {
             if (playerInput.Dmag > 0.1f)
             {

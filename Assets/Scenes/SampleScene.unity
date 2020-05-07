@@ -637,9 +637,12 @@ MonoBehaviour:
   bIsRun: 0
   defense: 0
   jump: 0
-  attack: 0
   roll: 0
   lockon: 0
+  lb: 0
+  lt: 0
+  rb: 0
+  rt: 0
   inputEnabled: 0
   KeyUp: w
   KeyDown: s
@@ -647,8 +650,11 @@ MonoBehaviour:
   KeyRight: d
   keyA: left shift
   keyB: q
-  keyC: mouse 0
-  keyD: mouse 1
+  keyRB: mouse 1
+  keyD: mouse 0
+  keyRT: mouse 0
+  keyLB: mouse 0
+  keyLT: u
   keyJRight: right
   keyJLeft: left
   keyJUp: up
@@ -746,9 +752,12 @@ MonoBehaviour:
   bIsRun: 0
   defense: 0
   jump: 0
-  attack: 0
   roll: 0
   lockon: 0
+  lb: 0
+  lt: 0
+  rb: 0
+  rt: 0
   inputEnabled: 0
   axisX: axisX
   axisY: axisY
@@ -760,6 +769,8 @@ MonoBehaviour:
   btnD: btn3
   btnLB: btn4
   btnLT: btn6
+  btnRB: btn4
+  btnRT: btn6
 --- !u!1 &1209931446
 GameObject:
   m_ObjectHideFlags: 0

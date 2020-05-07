@@ -16,6 +16,9 @@ public class JoystickInput : IUserInput
     public string btnLB = "btn4";
     public string btnLT = "btn6";
     //public string btnJstck = "btn11";
+    public string btnRB = "btn4";
+    public string btnRT = "btn6";
+
 
     public MyButton buttonA = new MyButton();
     public MyButton buttonB = new MyButton();
@@ -23,7 +26,8 @@ public class JoystickInput : IUserInput
     public MyButton buttonD = new MyButton();
     public MyButton buttonLB = new MyButton();
     public MyButton buttonLT = new MyButton();
-
+    public MyButton buttonRB = new MyButton();
+    public MyButton buttonRT = new MyButton();
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +44,8 @@ public class JoystickInput : IUserInput
         buttonD.Tick(Input.GetButton(btnD));
         buttonLB.Tick(Input.GetButton(btnLB));
         buttonLT.Tick(Input.GetButton(btnLT));
+        buttonRB.Tick(Input.GetButton(btnRB));
+        buttonRT.Tick(Input.GetButton(btnRT));
 
         Jup = -Input.GetAxis(axisJup);
         Jright = Input.GetAxis(axisJright);
@@ -68,7 +74,7 @@ public class JoystickInput : IUserInput
         defense = buttonLB.IsPressing;
         jump = buttonA.OnPressed && buttonA.IsExtending;
         roll = buttonA.OnReleased && buttonA.IsDelaying;
-        attack = buttonC.OnPressed;
+        //attack = buttonC.OnPressed;
     }
 
 }

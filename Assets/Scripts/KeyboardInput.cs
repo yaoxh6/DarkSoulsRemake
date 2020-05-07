@@ -14,8 +14,11 @@ public class KeyboardInput : IUserInput
 
     public string keyA = "left shift";
     public string keyB = "q";
-    public string keyC = "mouse 0";
+    public string keyRB = "mouse 0";
     public string keyD = "mouse 1";
+    public string keyRT = "";
+    public string keyLB = "";
+    public string keyLT = "";
 
     public string keyJRight;
     public string keyJLeft;
@@ -28,6 +31,8 @@ public class KeyboardInput : IUserInput
     public MyButton buttonD = new MyButton();//defense
     public MyButton buttonLB = new MyButton();
     public MyButton buttonLT = new MyButton();
+    public MyButton buttonRB = new MyButton();
+    public MyButton buttonRT = new MyButton();
 
     [Header("----- Mouse Setting -----")]
     public bool mouseEnable = true;
@@ -51,7 +56,10 @@ public class KeyboardInput : IUserInput
 
         buttonA.Tick(Input.GetKey(keyA));
         buttonB.Tick(Input.GetKey(keyB));
-        buttonC.Tick(Input.GetKey(keyC));
+        buttonRB.Tick(Input.GetKey(keyRB));
+        buttonRT.Tick(Input.GetKey(keyRT));
+        buttonLT.Tick(Input.GetKey(keyLT));
+        buttonLB.Tick(Input.GetKey(keyLB));
         buttonD.Tick(Input.GetKey(keyD));
 
 
@@ -94,8 +102,12 @@ public class KeyboardInput : IUserInput
         defense = buttonD.IsPressing;
         jump = buttonA.OnPressed && buttonA.IsExtending;
         roll = buttonA.OnReleased && buttonA.IsDelaying;
-        attack = buttonC.OnPressed;
+        //attack = buttonC.OnPressed;
         lockon = buttonB.OnPressed;
+        rb = buttonRB.OnPressed;
+        rt = buttonRT.OnPressed;
+        lb = buttonLB.OnPressed;
+        lt = buttonLT.OnPressed;
     }
 
 }

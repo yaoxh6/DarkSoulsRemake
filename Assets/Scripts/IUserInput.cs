@@ -19,10 +19,16 @@ public abstract class IUserInput : MonoBehaviour
     public bool jump;
     protected bool lastjump;
 
-    public bool attack;
+    //public bool attack;
     protected bool lastattack;
     public bool roll;
     public bool lockon;
+
+    public bool lb;
+    public bool lt;
+    public bool rb;
+    public bool rt;
+
 
     [Header("----- others -----")]
     public bool inputEnabled;
